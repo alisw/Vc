@@ -207,9 +207,8 @@ simd_for_each_n(InputIt first, std::size_t count, UnaryFunction f)
 }
 
 #ifdef Vc_CXX17
-#ifdef Vc_GCC
-// GCC specific workaround because stdlibc++ doesn't have
-// std::for_each_n implemented yet.
+#if defined(__GLIBCXX__) || defined(__GLIBCPP__)
+// stdlibc++ doesn't have std::for_each_n implemented yet
 template <typename InputIt, typename UnaryFunction>
 inline enable_if<!std::is_arithmetic<typename InputIt::value_type>::value, UnaryFunction>
 simd_for_each_n(InputIt first, std::size_t count, UnaryFunction f)
